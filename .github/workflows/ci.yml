@@ -1,0 +1,36 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - main  # Menentukan event yang memicu pipeline, pada branch main
+  pull_request:
+    branches:
+      - main  # Menjalankan pipeline pada saat ada pull request ke branch main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Menentukan environment yang digunakan, bisa ubuntu, windows, atau macos
+
+    steps:
+    # Langkah pertama: Checkout kode dari repository
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    # Langkah kedua: Menyiapkan Node.js (bisa diganti sesuai dengan kebutuhan proyek, misal menggunakan Python, Java, dll.)
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'  # Versi Node.js yang ingin digunakan
+
+    # Langkah ketiga: Install dependencies yang diperlukan untuk proyek
+    - name: Install dependencies
+      run: npm install  # Bisa disesuaikan dengan package manager yang digunakan, misalnya pip, maven, dll.
+
+    # Langkah keempat: Compile code (proses build proyek)
+    - name: Compile code
+      run: npm run build  # Misalkan menggunakan perintah build untuk proyek Node.js
+
+    # Langkah kelima: Jalankan tes untuk memastikan semuanya berjalan dengan baik
+    - name: Run tests
+      run: npm test  # Jalankan tes yang sudah disiapkan dalam proyek
